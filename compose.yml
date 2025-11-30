@@ -1,0 +1,38 @@
+services:
+  app:
+    build: .
+    command: npm run dev
+    ports:
+      - "${PORT}:${PORT}" 
+      - "9229:9229"    # Бере порт 3000 з файлу .env
+    volumes:
+      - .:/app
+      - /app/node_modules
+    env_file:
+      - .env
+    depends_on:
+      - db
+    networks:
+      - inventory-network
+
+  db:
+    image: mysql:8.0
+    container_name: inventory_db_container
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3308:3306"           # 3307 зовні, 3306 всередині
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./db-init:/docker-entrypoint-initdb.d
+    networks:
+      - inventory-network
+
+volumes:
+  db_data:
+
+networks:
+  inventory-network:
