@@ -46,5 +46,11 @@
     "name": "рарарра",
     "description": "Проста трава. Може стати",
     "photoPath": ""
+  },
+  {
+    "id": 10,
+    "name": "штука",
+    "description": "хзхз",
+    "photoPath": "memory/10"
   }
 ]
